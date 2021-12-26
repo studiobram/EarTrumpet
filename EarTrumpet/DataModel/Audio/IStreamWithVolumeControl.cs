@@ -7,6 +7,7 @@ namespace EarTrumpet.DataModel.Audio
         string Id { get; }
         bool IsMuted { get; set; }
         float Volume { get; set; }
+        float SyncVolumeLevel { get; set; }
         float PeakValue1 { get; }
         float PeakValue2 { get; }
     }

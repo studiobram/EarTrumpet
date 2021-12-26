@@ -10,6 +10,8 @@ using System.ComponentModel;
 using System.Diagnostics;
 using System.Linq;
 using System.Windows.Media;
+using System.Windows.Input;
+using EarTrumpet.UI.Helpers;
 
 namespace EarTrumpet.UI.ViewModels
 {
@@ -34,6 +36,9 @@ namespace EarTrumpet.UI.ViewModels
         public bool IsDesktopApp => _session.IsDesktopApp;
         public bool IsExpanded { get; private set; }
         public int ProcessId => _session.ProcessId;
+        public bool SyncVolume => _session.SyncVolume;
+        public bool EnableVolumeSlider => !_session.SyncVolume;
+        public ICommand ToggleSyncVolume { get; }
         public ObservableCollection<IAppItemViewModel> ChildApps { get; private set; }
 
         public bool IsMovable => !_session.IsSystemSoundsSession &&
@@ -58,6 +63,14 @@ namespace EarTrumpet.UI.ViewModels
 
         internal AppItemViewModel(DeviceViewModel parent, IAudioDeviceSession session, bool isChild = false) : base(session)
         {
+            ToggleSyncVolume = new RelayCommand(() => 
+            { 
+                _session.SyncVolume = !_session.SyncVolume;
+                if (_session.SyncVolume)
+                {
+                    _session.Volume = _session.Parent.SyncVolumeLevel;
+                }
+            });
             IsExpanded = isChild;
             _session = session;
             _session.PropertyChanged += Session_PropertyChanged;
@@ -82,6 +95,11 @@ namespace EarTrumpet.UI.ViewModels
             if (e.PropertyName == nameof(_session.DisplayName))
             {
                 RaisePropertyChanged(nameof(DisplayName));
+            }
+            if (e.PropertyName == nameof(_session.SyncVolume))
+            {
+                RaisePropertyChanged(nameof(SyncVolume));
+                RaisePropertyChanged(nameof(EnableVolumeSlider));
             }
         }
 

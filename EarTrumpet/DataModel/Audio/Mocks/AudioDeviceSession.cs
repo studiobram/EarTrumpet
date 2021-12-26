@@ -61,6 +61,34 @@ namespace EarTrumpet.DataModel.Audio.Mocks
             }
         }
 
+        private float _SyncVolumeLevel = 1;
+        public float SyncVolumeLevel
+        {
+            get => _SyncVolumeLevel;
+            set
+            {
+                if (_SyncVolumeLevel != value)
+                {
+                    _SyncVolumeLevel = value;
+                    RaisePropertyChanged(nameof(SyncVolumeLevel));
+                }
+            }
+        }
+
+        private bool _syncVolume;
+        public bool SyncVolume
+        {
+            get => _syncVolume;
+            set
+            {
+                if (_syncVolume != value)
+                {
+                    _syncVolume = value;
+                    RaisePropertyChanged(nameof(SyncVolume));
+                }
+            }
+        }
+
         public float PeakValue1 { get; set; }
 
         public float PeakValue2 { get; set; }

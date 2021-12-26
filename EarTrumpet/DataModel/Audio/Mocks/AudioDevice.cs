@@ -13,6 +13,7 @@ namespace EarTrumpet.DataModel.Audio.Mocks
         {
             Parent = parent;
             Id = id;
+            _SyncVolumeLevel = _volume;
         }
 
         public string DisplayName => Id;
@@ -48,6 +49,20 @@ namespace EarTrumpet.DataModel.Audio.Mocks
                 {
                     _volume = value;
                     RaisePropertyChanged(nameof(Volume));
+                }
+            }
+        }
+        
+        private float _SyncVolumeLevel = 1;
+        public float SyncVolumeLevel
+        {
+            get => _SyncVolumeLevel;
+            set
+            {
+                if (_SyncVolumeLevel != value)
+                {
+                    _SyncVolumeLevel = value;
+                    RaisePropertyChanged(nameof(SyncVolumeLevel));
                 }
             }
         }

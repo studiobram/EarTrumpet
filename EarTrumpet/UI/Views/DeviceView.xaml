@@ -12,7 +12,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-
+        
         <ListViewItem Name="DeviceListItem"
                       AutomationProperties.Name="{Binding Device.AccessibleName}"
                       Tag="{x:Static views:DeviceView.DeviceListItemKey}">
@@ -28,11 +28,11 @@
                 </Border.Style>
                 <Grid Theme:Brush.Background=":=Transparent, Flyout:Theme=SystemAccent/0.3/0.5, :HighContrast=Transparent, Flyout:HighContrast=Transparent">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
 
-                    <Border Height="{DynamicResource Mutable_DeviceTitleCellHeight}" Margin="{StaticResource WindowMargin}">
+                    <Border Grid.Row="0" Height="{DynamicResource Mutable_DeviceTitleCellHeight}" Margin="{StaticResource WindowMargin}">
                         <TextBlock Text="{Binding Device.DisplayName}" TextTrimming="CharacterEllipsis">
                             <TextBlock.Style>
                                 <Style BasedOn="{StaticResource DeviceTitleTextStyle}" TargetType="TextBlock">
@@ -46,12 +46,18 @@
                         </TextBlock>
                     </Border>
 
-                    <Grid Grid.Row="1" Height="{DynamicResource Mutable_DeviceItemCellHeight}">
+                    <Grid Grid.Row="1">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="{DynamicResource Mutable_IconCellWidth}" />
                             <ColumnDefinition Width="*" />
                             <ColumnDefinition Width="{DynamicResource Mutable_VolumeCellWidth}" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="5" />
+                            <RowDefinition Height="auto" />
+                            <RowDefinition Height="15" />
+                        </Grid.RowDefinitions>
 
                         <Button Name="MuteButton"
                                 Width="{DynamicResource Mutable_AppIconSize}"
@@ -62,6 +68,8 @@
                                 Command="{Binding Device.ToggleMute}"
                                 IsTabStop="False"
                                 Opacity="1"
+                                Grid.Column="0"
+                                Grid.Row="0"
                                 ToolTipService.ToolTip="{x:Static resx:Resources.ToggleMuteToolTip}">
                             <Button.Style>
                                 <Style BasedOn="{StaticResource MuteButton}" TargetType="{x:Type Button}" />
@@ -116,6 +124,7 @@
                         </Button>
 
                         <ctl:VolumeSlider Grid.Column="1"
+                                          Grid.Row="0"
                                           PeakValue1="{Binding Device.PeakValue1}"
                                           PeakValue2="{Binding Device.PeakValue2}"
                                           PreviewMouseUp="TouchSlider_MouseUp"
@@ -123,13 +132,36 @@
                                           Style="{StaticResource {x:Type Slider}}"
                                           Value="{Binding Device.Volume, Mode=TwoWay}" />
                         <TextBlock Grid.Column="2"
+                                   Grid.Row="0"
                                    Style="{StaticResource DeviceVolumeTextStyle}"
                                    Text="{Binding Device.Volume, Mode=OneWay}" />
+
+                        <TextBlock Grid.Column="0" Grid.Row="2" Theme:Brush.Foreground="{Binding (Theme:Brush.Foreground), RelativeSource={RelativeSource AncestorType=Button}}"
+                                               FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}" >
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Text" Value="&#xE71B;" />
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+
+                        <ctl:VolumeSlider Grid.Column="1"
+                                          Grid.Row="2"
+                                          PeakValue1="{Binding Device.PeakValue1}"
+                                          PeakValue2="{Binding Device.PeakValue2}"
+                                          PreviewMouseUp="TouchSlider_MouseUp"
+                                          PreviewTouchUp="TouchSlider_TouchUp"
+                                          Style="{StaticResource {x:Type Slider}}"
+                                          Value="{Binding Device.SyncVolumeLevel, Mode=TwoWay}" />
+                        <TextBlock Grid.Column="2"
+                                   Grid.Row="2"
+                                   Style="{StaticResource DeviceVolumeTextStyle}"
+                                   Text="{Binding Device.SyncVolumeLevel, Mode=OneWay}" />
                     </Grid>
                 </Grid>
             </Border>
         </ListViewItem>
-
+        
         <Border Grid.Row="1" Theme:Brush.Background=":=Background, Flyout:FlyoutBackground">
             <Border.Style>
                 <Style TargetType="Border">

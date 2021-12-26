@@ -1,6 +1,8 @@
 ﻿using EarTrumpet.DataModel.Audio;
+using EarTrumpet.DataModel.WindowsAudio.Internal;
 using EarTrumpet.Extensions;
 using EarTrumpet.UI.Helpers;
+using System.Linq;
 using System.Windows.Input;
 
 namespace EarTrumpet.UI.ViewModels
@@ -37,7 +39,46 @@ namespace EarTrumpet.UI.ViewModels
         public int Volume
         {
             get => _stream.Volume.ToVolumeInt();
-            set => _stream.Volume = value/100f;
+            set
+            {
+                var volume = value / 100f;
+                _stream.Volume = volume;
+
+                if (volume.ToVolumeInt() < SyncVolumeLevel)
+                {
+                    SyncVolumeLevel = volume.ToVolumeInt();
+                }
+            }
+        }
+        public int SyncVolumeLevel
+        {
+            get
+            {
+                var volume = _stream.SyncVolumeLevel.ToVolumeInt();
+                // Extra safety check
+                if (volume > Volume)
+                {
+                    SyncVolumeLevel = Volume;
+                }
+                return volume;
+            }
+            set {
+                var volume = value / 100f;
+
+                if (volume.ToVolumeInt() > Volume)
+                {
+                    volume = Volume / 100f;
+                }
+
+                _stream.SyncVolumeLevel = volume;
+                if (_stream.GetType() == typeof(AudioDevice))
+                {
+                    foreach (var item in ((AudioDevice)_stream).Groups.Where(e => e.SyncVolume))
+                    {
+                        item.Volume = _stream.SyncVolumeLevel;
+                    }
+                }
+            }
         }
         public virtual float PeakValue1 => _stream.PeakValue1;
         public virtual float PeakValue2 => _stream.PeakValue2;

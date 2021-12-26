@@ -1,5 +1,6 @@
 ﻿using EarTrumpet.UI.Helpers;
 using EarTrumpet.UI.ViewModels;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;

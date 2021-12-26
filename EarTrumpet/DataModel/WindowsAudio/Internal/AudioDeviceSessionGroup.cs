@@ -70,6 +70,34 @@ namespace EarTrumpet.DataModel.WindowsAudio.Internal
             }
         }
 
+        private bool _syncVolume;
+        public bool SyncVolume
+        {
+            get => _syncVolume;
+            set
+            {
+                if (_syncVolume != value)
+                {
+                    _syncVolume = value;
+                    RaisePropertyChanged(nameof(SyncVolume));
+                }
+            }
+        }
+
+        private float _SyncVolumeLevel = 1;
+        public float SyncVolumeLevel
+        {
+            get => _SyncVolumeLevel;
+            set
+            {
+                if (_SyncVolumeLevel != value)
+                {
+                    _SyncVolumeLevel = value;
+                    RaisePropertyChanged(nameof(SyncVolumeLevel));
+                }
+            }
+        }
+
         public bool IsSystemSoundsSession => _sessions.Any(s => s.IsSystemSoundsSession);
 
         public float PeakValue1 => _sessions.Count > 0 ? _sessions.Max(s => s.PeakValue1) : 0;

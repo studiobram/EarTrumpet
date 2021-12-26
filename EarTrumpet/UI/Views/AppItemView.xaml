@@ -7,11 +7,42 @@
              IsTabStop="False">
     <Grid Name="GridRoot" Background="Transparent">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="{DynamicResource Mutable_IconCellWidth}" />
+            <ColumnDefinition Width="auto" />
+            <ColumnDefinition Width="auto" />
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="{DynamicResource Mutable_VolumeCellWidth}" />
         </Grid.ColumnDefinitions>
-        <Grid Grid.Column="0" Margin="{StaticResource DeviceOrAppIconMargin}">
+        <Grid Grid.Column="0" Margin="20, 0, 0, 0">
+            <Button Background="Transparent"
+                                Opacity="1"
+                                Name="SyncVolume"
+                                Command="{Binding ToggleSyncVolume}">
+                <Button.Style>
+                    <Style BasedOn="{StaticResource MuteButton}" TargetType="{x:Type Button}" />
+                </Button.Style>
+                <Button.Content>
+                    <Grid>
+                        <TextBlock Theme:Brush.Foreground="{Binding (Theme:Brush.Foreground), RelativeSource={RelativeSource AncestorType=Button}}"
+                                               FontSize="{DynamicResource Mutable_DeviceVolumeTextFontSize}" >
+                            <TextBlock.Style>
+                                <Style BasedOn="{StaticResource GlyphTextBlockStyle}" TargetType="{x:Type TextBlock}">
+                                    <Setter Property="Text" Value="&#xE71B;" />
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SyncVolume}" Value="True">
+                                            <Setter Property="Text" Value="&#xE71B;" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding SyncVolume}" Value="False">
+                                            <Setter Property="Text" Value="&#xE710;" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </Grid>
+                </Button.Content>
+            </Button>
+        </Grid>
+        <Grid Grid.Column="1" Margin="20, 0, 15, 0">
             <Border Width="{DynamicResource Mutable_AppIconSize}"
                     Height="{DynamicResource Mutable_AppIconSize}"
                     HorizontalAlignment="Center">
@@ -85,9 +116,10 @@
                 </Button.Content>
             </Button>
         </Grid>
-        <ctl:VolumeSlider Grid.Column="1"
+        <ctl:VolumeSlider Grid.Column="2"
                           PeakValue1="{Binding PeakValue1}"
                           PeakValue2="{Binding PeakValue2}"
+                          IsEnabled="{Binding EnableVolumeSlider, Mode=OneWay}"
                           Value="{Binding Volume, Mode=TwoWay}">
             <ctl:VolumeSlider.Style>
                 <Style BasedOn="{StaticResource {x:Type Slider}}" TargetType="Slider">
@@ -99,7 +131,7 @@
                 </Style>
             </ctl:VolumeSlider.Style>
         </ctl:VolumeSlider>
-        <TextBlock Grid.Column="2" Text="{Binding Volume, Mode=OneWay}">
+        <TextBlock Grid.Column="3" Text="{Binding Volume, Mode=OneWay}">
             <TextBlock.Style>
                 <Style BasedOn="{StaticResource AppVolumeTextStyle}" TargetType="TextBlock">
                     <Style.Triggers>

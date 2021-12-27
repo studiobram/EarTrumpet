@@ -83,6 +83,7 @@ namespace EarTrumpet.DataModel.Audio.Mocks
             {
                 if (_syncVolume != value)
                 {
+                    SyncSettings.SetSyncVolume(this, value);
                     _syncVolume = value;
                     RaisePropertyChanged(nameof(SyncVolume));
                 }

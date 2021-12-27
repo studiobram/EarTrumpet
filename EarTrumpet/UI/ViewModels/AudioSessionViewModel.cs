@@ -71,6 +71,8 @@ namespace EarTrumpet.UI.ViewModels
                 }
 
                 _stream.SyncVolumeLevel = volume;
+                SyncSettings.SetSyncVolumeLevel(_stream, volume);
+
                 if (_stream.GetType() == typeof(AudioDevice))
                 {
                     foreach (var item in ((AudioDevice)_stream).Groups.Where(e => e.SyncVolume))

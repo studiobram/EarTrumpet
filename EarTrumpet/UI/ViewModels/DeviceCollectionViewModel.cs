@@ -92,6 +92,8 @@ namespace EarTrumpet.UI.ViewModels
 
         protected virtual void AddDevice(IAudioDevice device)
         {
+            SyncSettings.SyncVolumeLevel(device);
+
             var newDevice = new DeviceViewModel(this, _deviceManager, device);
             AllDevices.Add(newDevice);
         }

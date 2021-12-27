@@ -78,6 +78,7 @@ namespace EarTrumpet.DataModel.WindowsAudio.Internal
             {
                 if (_syncVolume != value)
                 {
+                    SyncSettings.SetSyncVolume(this, value);
                     _syncVolume = value;
                     RaisePropertyChanged(nameof(SyncVolume));
                 }

@@ -63,6 +63,7 @@ namespace EarTrumpet.UI.ViewModels
 
         internal AppItemViewModel(DeviceViewModel parent, IAudioDeviceSession session, bool isChild = false) : base(session)
         {
+            SyncSettings.SyncVolume(session);
             ToggleSyncVolume = new RelayCommand(() => 
             { 
                 _session.SyncVolume = !_session.SyncVolume;

@@ -200,6 +200,7 @@
     <Compile Include="Interop\MMDeviceAPI\IAudioPolicyConfigFactory.cs" />
     <Compile Include="Interop\SafeHandles\HMODULE.cs" />
     <Compile Include="Interop\SIZE.cs" />
+    <Compile Include="SyncSettings.cs" />
     <Compile Include="UI\Behaviors\FrameworkElementEx.cs" />
     <Compile Include="UI\Behaviors\ComboBoxEx.cs" />
     <Compile Include="UI\Controls\AppPopup.cs" />
